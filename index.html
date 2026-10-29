@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="ASTRO LINKS — semua tautan penting dalam satu tempat.">
+  <title>ASTRO LINKS — Semua tautan dalam satu tempat</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="wordmark" href="./" aria-label="ASTRO LINKS beranda"><span class="brand-mark">A</span> ASTRO LINKS</a>
+    <button class="icon-button" id="open-admin" type="button" aria-label="Buka dashboard pengelola" title="Dashboard pengelola">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.7 2.9-.2-.1a1.7 1.7 0 0 0-1.8.1 1.7 1.7 0 0 0-.8 1.5v.2H8.7v-.2a1.7 1.7 0 0 0-.9-1.5 1.7 1.7 0 0 0-1.8-.1l-.2.1-1.7-2.9.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-.9H2.8v-3.3H3a1.7 1.7 0 0 0 1.5-.9 1.7 1.7 0 0 0-.3-1.9l-.1-.1 1.7-2.9.2.1a1.7 1.7 0 0 0 1.8-.1 1.7 1.7 0 0 0 .9-1.5V3.3h6.6v.2a1.7 1.7 0 0 0 .8 1.5 1.7 1.7 0 0 0 1.8.1l.2-.1 1.7 2.9-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.5.9h.2V14h-.2a1.7 1.7 0 0 0-1.5 1z"></path></svg>
+    </button>
+  </header>
+
+  <main class="page-shell">
+    <section class="profile-card" aria-labelledby="profile-name">
+      <div class="avatar" id="avatar">A</div>
+      <p class="eyebrow">SATU HALAMAN, SEMUA TAUTAN</p>
+      <h1 id="profile-name">ASTRO LINKS</h1>
+      <p class="bio" id="profile-bio">Temukan media sosial, website, dan proyek saya di sini.</p>
+      <div class="social-row" id="social-links" aria-label="Media sosial"></div>
+    </section>
+
+    <section class="links-section" aria-label="Daftar tautan">
+      <div class="section-heading">
+        <h2>Jelajahi tautan</h2>
+        <span class="link-count" id="link-count">0 tautan</span>
+      </div>
+      <div id="links-list" class="links-list"></div>
+      <p id="empty-state" class="empty-state" hidden>Belum ada tautan. Buka dashboard untuk menambahkan tautan.</p>
+    </section>
+
+    <footer class="footer">
+      <button id="copy-profile" class="text-button" type="button">Salin link halaman</button>
+      <span>© <span id="year"></span> ASTRO LINKS</span>
+    </footer>
+  </main>
+
+  <dialog id="admin-dialog" class="admin-dialog">
+    <div class="admin-header">
+      <div><p class="eyebrow">PENGELOLA</p><h2>Dashboard ASTRO LINKS</h2></div>
+      <button class="icon-button close-button" id="close-admin" type="button" aria-label="Tutup dashboard">×</button>
+    </div>
+    <div id="admin-login" class="admin-login">
+      <p class="muted">Masukkan PIN dashboard untuk mengedit profil dan tautan di perangkat ini.</p>
+      <form id="pin-form">
+        <label for="admin-pin">PIN dashboard</label>
+        <input id="admin-pin" name="pin" type="password" inputmode="numeric" autocomplete="current-password" minlength="4" maxlength="12" placeholder="PIN awal: 1234" required>
+        <button class="primary-button" type="submit">Masuk dashboard</button>
+        <p class="small-note">Ganti PIN awal dari bagian “Keamanan” setelah masuk. PIN ini hanya pengunci tampilan di browser, bukan autentikasi server.</p>
+        <p class="form-error" id="pin-error" role="alert"></p>
+      </form>
+    </div>
+
+    <div id="admin-content" hidden>
+      <nav class="tabs" aria-label="Bagian dashboard">
+        <button class="tab active" data-tab="profile-panel" type="button">Profil</button>
+        <button class="tab" data-tab="links-panel" type="button">Tautan</button>
+        <button class="tab" data-tab="stats-panel" type="button">Statistik</button>
+        <button class="tab" data-tab="security-panel" type="button">Keamanan</button>
+      </nav>
+
+      <section class="tab-panel" id="profile-panel">
+        <h3>Profil halaman</h3>
+        <form id="profile-form" class="form-stack">
+          <label for="edit-name">Nama / brand</label><input id="edit-name" maxlength="60" required>
+          <label for="edit-bio">Bio singkat</label><textarea id="edit-bio" rows="3" maxlength="180"></textarea>
+          <label for="edit-avatar">Huruf avatar (1–2 karakter)</label><input id="edit-avatar" maxlength="2">
+          <button class="primary-button" type="submit">Simpan profil</button>
+        </form>
+      </section>
+
+      <section class="tab-panel" id="links-panel" hidden>
+        <h3>Tambah tautan</h3>
+        <form id="link-form" class="form-stack">
+          <label for="link-title">Nama tautan</label><input id="link-title" maxlength="60" placeholder="Contoh: Website utama" required>
+          <label for="link-url">URL tautan</label><input id="link-url" type="url" inputmode="url" placeholder="https://contoh.com" required>
+          <label for="link-category">Kategori</label>
+          <select id="link-category"><option value="website">Website</option><option value="social">Media sosial</option><option value="other">Lainnya</option></select>
+          <button class="primary-button" type="submit">Tambah tautan</button>
+        </form>
+        <div class="managed-links" id="managed-links"></div>
+        <div class="button-row">
+          <button class="secondary-button" id="export-data" type="button">Ekspor cadangan</button>
+          <label class="secondary-button file-button" for="import-file">Impor cadangan</label><input id="import-file" type="file" accept="application/json,.json" hidden>
+        </div>
+        <p class="small-note">Perubahan disimpan di browser/perangkat ini. Untuk menerbitkan perubahan bagi semua pengunjung, ubah data awal di <code>js/app.js</code> lalu deploy ulang.</p>
+      </section>
+
+      <section class="tab-panel" id="stats-panel" hidden>
+        <h3>Statistik klik</h3>
+        <div class="stats-grid">
+          <div class="stat-card"><span>Total klik</span><strong id="total-clicks">0</strong></div>
+          <div class="stat-card"><span>Tautan aktif</span><strong id="active-links">0</strong></div>
+        </div>
+        <div id="stats-list" class="stats-list"></div>
+        <button class="secondary-button" id="reset-stats" type="button">Reset statistik di perangkat ini</button>
+        <p class="small-note">Statistik ini hanya dihitung di browser pengunjung yang menjalankan kode ini. Statistik gabungan semua pengunjung memerlukan backend/analitik eksternal.</p>
+      </section>
+
+      <section class="tab-panel" id="security-panel" hidden>
+        <h3>Keamanan dashboard</h3>
+        <form id="pin-change-form" class="form-stack">
+          <label for="new-pin">PIN baru (4–12 karakter)</label><input id="new-pin" type="password" minlength="4" maxlength="12" required>
+          <label for="confirm-pin">Ulangi PIN baru</label><input id="confirm-pin" type="password" minlength="4" maxlength="12" required>
+          <button class="primary-button" type="submit">Ubah PIN</button>
+          <p class="form-error" id="security-error" role="alert"></p>
+          <p class="small-note">PIN disimpan di localStorage dan bukan perlindungan server. Jangan gunakan dashboard ini untuk data rahasia atau membagikan akses editor ke publik.</p>
+        </form>
+        <button class="text-button danger-text" id="logout-admin" type="button">Keluar dashboard</button>
+      </section>
+    </div>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
